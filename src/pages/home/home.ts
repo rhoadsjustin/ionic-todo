@@ -1,34 +1,45 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-
+import { ModalController, NavController } from 'ionic-angular';
+import { AddItemPage } from '../add-item/add-item'
+import { ItemDetailPage } from '../item-detail/item-detail'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
 
-  public items;
+  public items = [];
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController) {
 
   }
 
   ionViewDidLoad(){
 
-    this.items = [
-      {title: 'Add Line Graph', description: 'test1'},
-      {title: 'Add Bar Graph', description: 'test2'},
-      {title: 'Send to Venkat', description: 'test3'}
-    ];
+
 
   }
 
   addItem(){
+    let addModal = this.modalCtrl.create(AddItemPage);
 
+    addModal.onDidDismiss((item) => {
+      if(item) {
+        this.saveItem(item);
+      }
+    });
+
+    addModal.present();
   }
 
-  viewItem(){
+  saveItem(item) {
+    this.items.push(item);
+  }
 
+  viewItem(item){
+    this.navCtrl.push(ItemDetailPage, {
+      item: item
+    })
   }
 
 }
