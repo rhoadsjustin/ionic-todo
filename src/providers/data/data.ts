@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
 
 /*
@@ -9,10 +9,18 @@ import 'rxjs/add/operator/map';
   for more info on providers and Angular DI.
 */
 @Injectable()
-export class DataProvider {
+export class Data {
 
-  constructor(public http: Http) {
-    console.log('Hello DataProvider Provider');
+  constructor(public storage: Storage) {
+
   }
 
+  getData() {
+    return this.storage.get('todos');
+  }
+
+  save(data){
+    let newData = JSON.stringify(data);
+    this.storage.set('todos', newData);
+  }
 }
